@@ -23,6 +23,6 @@ services:
     working_dir: /
     command:
       - -u
-      - ${SMEE_URL:?SMEE_URL} # https://smee.io/new
+      - ${SMEE_URL:?SMEE_URL must set in ~/lnmp/.env} # https://smee.io/new
       - -t
-      - ${SMEE_TARGET_URL:?SMEE_TARGET_URL} # http://127.0.0.1:PORT/PATH
+      - ${SMEE_TARGET_URL:?SMEE_TARGET_URL must set in ~/lnmp/.env} # http://127.0.0.1:PORT/PATH
