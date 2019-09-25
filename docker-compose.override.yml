@@ -1,0 +1,12 @@
+version: "3.7"
+
+x-common:
+  &default-common
+  labels:
+    - ${LNMP_DOMAIN:-com.khs1994.lnmp}=true
+    - ${LNMP_DOMAIN:-com.khs1994.lnmp}.app.env=development
+
+services:
+  smee:
+    << : *default-common
+    image: lrew/smee:${LNMP_SMEE_VERSION:-1.1.0}-client-alpine

@@ -1,0 +1,28 @@
+version: "3.7"
+
+x-common:
+  &default-common
+  restart: always
+  env_file: ./cli/timezone.env
+  networks:
+    - frontend
+  # dns:
+  #   - ${DNS:-114.114.114.114}
+
+x-common-label:
+  &default-common-label
+  labels:
+    - ${LNMP_DOMAIN:-com.khs1994.lnmp}=true
+    - ${LNMP_DOMAIN:-com.khs1994.lnmp}.app.env=development
+
+services:
+  smee:
+    << : *default-common
+    << : *default-common-label
+    image: "${LNMP_BUILD_DOCKER_IMAGE_PREFIX:-khs1994}/smee:${LNMP_SMEE_VERSION:-1.1.0}-client-alpine"
+    working_dir: /
+    command:
+      - -u
+      - ${SMEE_URL:?SMEE_URL} # https://smee.io/new
+      - -t
+      - ${SMEE_TARGET_URL:?SMEE_TARGET_URL} # http://127.0.0.1:PORT/PATH
