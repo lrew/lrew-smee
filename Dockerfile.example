@@ -6,10 +6,16 @@ ARG SMEE_VERSION=1.1.0
 
 ENV SMEE_VERSION=${SMEE_VERSION}
 
-RUN npm install --global smee-client@${SMEE_VERSION} \
+RUN set -x \
+    && apk add --no-cache curl \
+    && npm install --global smee-client@${SMEE_VERSION} \
       --registry=${NPM_REGISTRY} \
     && rm -rf /root/.npm
 
-ENTRYPOINT ["smee"]
+COPY docker-entrypoint.sh /
+
+VOLUME [ "/var/lib/smee-client" ]
+
+ENTRYPOINT ["sh", "/docker-entrypoint.sh"]
 
 CMD ["--help"]

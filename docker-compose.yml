@@ -21,8 +21,11 @@ services:
     << : *default-common-label
     image: "${LNMP_BUILD_DOCKER_IMAGE_PREFIX:-khs1994}/smee:${LNMP_SMEE_VERSION:-1.1.0}-client-alpine"
     working_dir: /
-    command:
-      - -u
-      - ${SMEE_URL:?SMEE_URL must set in ~/lnmp/.env} # https://smee.io/new
-      - -t
-      - ${SMEE_TARGET_URL:?SMEE_TARGET_URL must set in ~/lnmp/.env} # http://127.0.0.1:PORT/PATH
+    environment:
+      SMEE_SERVICE: ${SMEE_SERVICE:-''}
+      SMEE_TARGET: ${SMEE_TARGET:-''}
+    volumes:
+      - smee-client:/var/lib/smee-client
+
+volumes:
+  smee-client:
