@@ -8,7 +8,7 @@ if [ -z "${SMEE_SERVICE}" ];then
   if [ -f ${SMEE_SERVICE_PATH} ];then
     SMEE_SERVICE=`cat ${SMEE_SERVICE_PATH}`
   else
-    SMEE_SERVICE=`curl -sI https://smee.io/new | grep Location | cut -d ' ' -f 2`
+    SMEE_SERVICE=`curl -s https://smee.io/new | cut -d ' ' -f 5`
   fi
 fi
 
@@ -19,6 +19,6 @@ if [ -z "${SMEE_SERVICE}" ];then
 fi
 
 mkdir -p /var/lib/smee-client
-echo ${SMEE_SERVICE} > ${SMEE_SERVICE_PATH}
+echo "${SMEE_SERVICE}" | tee ${SMEE_SERVICE_PATH}
 
-smee -u ${SMEE_SERVICE} -t ${SMEE_TARGET:-http://127.0.0.1:3000/}
+exec smee -u ${SMEE_SERVICE} -t ${SMEE_TARGET:-http://127.0.0.1:3000/}
